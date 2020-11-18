@@ -1,5 +1,7 @@
 package kr.cloudev.controllers;
 
+import kr.cloudev.models.HomeModel;
+import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 public class IndexController {
@@ -34,14 +37,15 @@ public class IndexController {
             return null;
         }
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("title", "홈 - Cloudev");
-        modelAndView.addObject("username", github.getMyself().getName());
-        modelAndView.addObject("avatar_url", github.getMyself().getAvatarUrl());
-        modelAndView.addObject("profile_url", github.getMyself().getUrl());
-        modelAndView.setViewName("home");
 
-        return modelAndView;
+        HomeModel model = new HomeModel();
+
+        model.setTitle("홈 - Cloudev");
+        model.setUsername(github.getMyself().getName());
+        model.setAvatar_url(github.getMyself().getAvatarUrl());
+        model.setProfile_url(github.getMyself().getHtmlUrl().toString());
+
+        return new ModelAndView("home", "model", model);
     }
 
 }

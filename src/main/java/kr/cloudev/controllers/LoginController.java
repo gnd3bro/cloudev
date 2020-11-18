@@ -1,5 +1,6 @@
 package kr.cloudev.controllers;
 
+import kr.cloudev.models.LoginModel;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.springframework.stereotype.Controller;
@@ -25,11 +26,11 @@ public class LoginController {
             return null;
         }
 
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("title", "로그인 - Cloudev");
-        mav.setViewName("login");
+        LoginModel model = new LoginModel();
 
-        return mav;
+        model.setTitle("로그인 - Cloudev");
+
+        return new ModelAndView("login", "model", model);
     }
 
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
