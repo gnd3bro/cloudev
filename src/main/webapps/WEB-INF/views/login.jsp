@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <%@include file="head.jsp"%>
+    <%@include file="components/head.jsp"%>
 
     <body class="bg-gradient-primary">
 
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <%@include file="scripts.jsp"%>
+        <%@include file="components/scripts.jsp"%>
 
     </body>
 
