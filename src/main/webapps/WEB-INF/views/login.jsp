@@ -17,7 +17,7 @@
                                     <div class="p-5">
 
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">로그인</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Login</h1>
                                         </div>
 
                                         <form class="user"
@@ -51,14 +51,14 @@
                                         <div class="text-center">
                                             <a class="small"
                                                href="https://github.com/settings/tokens">
-                                                액세스 토큰을 잊으셨나요?
+                                                Forgot Access Token?
                                             </a>
                                         </div>
 
                                         <div class="text-center">
                                             <a class="small"
                                                href="https://github.com/join?source=login">
-                                                Github 계정이 없으신가요?
+                                                Create a Github account!
                                             </a>
                                         </div>
 
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <%@include file="components/scripts.jsp"%>
+        <%@include file="components/scripts-header.jsp"%>
 
     </body>
 
