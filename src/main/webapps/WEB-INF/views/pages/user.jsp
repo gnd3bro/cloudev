@@ -137,52 +137,52 @@
     <!-- Starred Repo Spinner -->
     <div id="starred_repo_list_spinner"></div>
 
-    <%--
-    <c:forEach items="${model.starredRepoList}" var="repo">
-        <div class="card border-left-secondary shadow h-100 py-2 mb-4">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col">
-                        <div class="h4 mb-3 font-weight-bold">
-                            <a href="${repo.htmlUrl}" class="text-secondary">
-                                ${repo.name}
-                            </a>
-                        </div>
-                        <div class="h6 mb-3 text-secondary">
-                            ${repo.description}
-                        </div>
-                        <div class="h6 mb-2">
-                        <c:forEach items="${repo.topicList}" var="topic">
-                            <a href="https://github.com/topics/${topic}" class="btn btn-secondary btn-sm mb-1">
-                                <span class="text">
-                                    ${topic}
-                                </span>
-                            </a>
-                        </c:forEach>
-                        </div>
-                        <div class="h6 mb-0 text-gray-600">
-                            <span class="icon text-secondary">
-                                <i class="fas fa-code"></i>
+<%--
+<c:forEach items="${model.starredRepoList}" var="repo">
+    <div class="card border-left-secondary shadow h-100 py-2 mb-4">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col">
+                    <div class="h4 mb-3 font-weight-bold">
+                        <a href="${repo.htmlUrl}" class="text-secondary">
+                            ${repo.name}
+                        </a>
+                    </div>
+                    <div class="h6 mb-3 text-secondary">
+                        ${repo.description}
+                    </div>
+                    <div class="h6 mb-2">
+                    <c:forEach items="${repo.topicList}" var="topic">
+                        <a href="https://github.com/topics/${topic}" class="btn btn-secondary btn-sm mb-1">
+                            <span class="text">
+                                ${topic}
                             </span>
-                                ${repo.language}&nbsp&nbsp
-                            <span class="icon text-secondary">
-                                <i class="fas fa-balance-scale"></i>
-                            </span>
-                                ${repo.license}&nbsp&nbsp
-                            <span class="icon text-secondary">
-                                <i class="fas fa-code-branch"></i>
-                            </span>
-                                ${repo.forksCount}&nbsp&nbsp
-                            <span class="icon text-secondary">
-                                <i class="fas fa-star"></i>
-                            </span>
-                                ${repo.stargazersCount}
-                        </div>
+                        </a>
+                    </c:forEach>
+                    </div>
+                    <div class="h6 mb-0 text-gray-600">
+                        <span class="icon text-secondary">
+                            <i class="fas fa-code"></i>
+                        </span>
+                            ${repo.language}&nbsp&nbsp
+                        <span class="icon text-secondary">
+                            <i class="fas fa-balance-scale"></i>
+                        </span>
+                            ${repo.license}&nbsp&nbsp
+                        <span class="icon text-secondary">
+                            <i class="fas fa-code-branch"></i>
+                        </span>
+                            ${repo.forksCount}&nbsp&nbsp
+                        <span class="icon text-secondary">
+                            <i class="fas fa-star"></i>
+                        </span>
+                            ${repo.stargazersCount}
                     </div>
                 </div>
             </div>
         </div>
-    </c:forEach>--%>
+    </div>
+</c:forEach>--%>
 
     <!-- More Button -->
     <a href="https://github.com/${model.loginId}?tab=stars" class="col btn btn-secondary btn-sm shadow mb-4">

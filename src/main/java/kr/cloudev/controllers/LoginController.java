@@ -4,6 +4,7 @@ import kr.cloudev.models.LoginModel;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,12 +29,12 @@ public class LoginController {
 
         LoginModel model = new LoginModel();
 
-        model.setTitle("로그인 - Cloudev");
+        model.setTitle("Login - Cloudev");
 
         return new ModelAndView("login", "model", model);
     }
 
-    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+    @PostMapping("/login.do")
     public String doLogin(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String token = request.getParameter("token");

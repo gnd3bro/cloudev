@@ -5,6 +5,7 @@ import kr.cloudev.models.HomeModel;
 import kr.cloudev.models.MyRepo;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +21,37 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @RequestMapping()
+    public ModelAndView userPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+
+        GitHub github = (GitHub) session.getAttribute("github");
+
+        if (github == null) {
+            response.sendRedirect("/");
+            return null;
+        }
+
+        GHUser user = github.getMyself();
+
+        HomeModel model = new HomeModel();
+
+        model.setTitle("Profile - Cloudev");
+        model.setAvatarUrl(user.getAvatarUrl());
+        model.setUsername(user.getName());
+        model.setLoginId(user.getLogin());
+        model.setProfileUrl(user.getHtmlUrl().toString());
+        model.setFollowersCount(user.getFollowersCount());
+        model.setFollowingCount(user.getFollowingCount());
+        model.setBio(user.getBio());
+        model.setTwitterUsername(user.getTwitterUsername());
+        model.setBlogUrl(user.getBlog());
+        model.setLocation(user.getLocation());
+        model.setEmail(user.getEmail());
+
+        return new ModelAndView("home", "model", model);
+    }
+
     @RequestMapping("/profile")
     public ModelAndView userProfile(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
@@ -31,8 +63,9 @@ public class UserController {
             return null;
         }
 
-        HomeModel model = new HomeModel();
         GHUser user = github.getMyself();
+
+        HomeModel model = new HomeModel();
 
         model.setTitle("Profile - Cloudev");
         model.setAvatarUrl(user.getAvatarUrl());
@@ -76,12 +109,7 @@ public class UserController {
         GitHub github = (GitHub) session.getAttribute("github");
         GHUser user = github.getMyself();
 
-        PagedIterator<GHRepository> repositoryPagedIterator = user.listRepositories().iterator();
-        List<String> repoNameList = new ArrayList<>();
-
-        while (repositoryPagedIterator.hasNext()){
-            repoNameList.add(repositoryPagedIterator.next().getName());
-        }
+        List<String> repoNameList = new ArrayList<>(user.getRepositories().keySet());
 
         return new GsonBuilder().create().toJson(repoNameList);
     }
