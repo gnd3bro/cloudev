@@ -33,6 +33,8 @@
                     <%@include file="pages/repo.jsp"%>
                 <% } else { %>
 
+                    <%@include file="pages/error.jsp"%>
+
                 <% } %>
 
                 </div>
