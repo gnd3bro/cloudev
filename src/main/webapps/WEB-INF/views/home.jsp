@@ -1,11 +1,15 @@
+<%@ page import="org.springframework.web.util.UrlPathHelper" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<% String url = new UrlPathHelper().getOriginatingRequestUri(request); %>
 <!DOCTYPE html>
 <html lang="en">
 
     <%@include file="components/head.jsp"%>
+    <%@include file="components/scripts-header.jsp"%>
 
     <body id="page-top">
+
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -20,10 +24,16 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                    <%@include file="components/topbar_search.jsp"%>
+                    <%@include file="components/topbar.jsp"%>
 
                     <!-- Page Content -->
-                    <%@include file="pages/repo_list.jsp"%>
+                <% if (url.equals("/user/profile")) { %>
+                    <%@include file="pages/profile.jsp"%>
+                <% } else if (url.equals("/user/repo")) { %>
+                    <%@include file="pages/repo.jsp"%>
+                <% } else { %>
+
+                <% } %>
 
                 </div>
                 <!-- End of Main Content -->
@@ -45,8 +55,8 @@
         <!-- Logout Modal-->
         <%@include file="components/logout_modal.jsp"%>
 
-        <!-- Main Script-->
-        <%@include file="components/scripts.jsp"%>
+        <!-- Footer Script -->
+        <%@include file="components/scripts-footer.jsp"%>
 
     </body>
 
