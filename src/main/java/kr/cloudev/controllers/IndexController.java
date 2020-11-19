@@ -27,7 +27,7 @@ public class IndexController {
             return null;
         }
 
-        return "redirect:/user/profile";
+        return "redirect:/user";
     }
 
 }

@@ -8,8 +8,7 @@
     <%@include file="components/head.jsp"%>
     <%@include file="components/scripts-header.jsp"%>
 
-    <body id="page-top">
-
+    <body id="page-top" class="toggled">
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -27,10 +26,18 @@
                     <%@include file="components/topbar.jsp"%>
 
                     <!-- Page Content -->
-                <% if (url.equals("/user/profile")) { %>
+                <% if (url.equals("/user")) { %>
+
+                    <%@include file="pages/user.jsp"%>
+
+                <% } else if (url.equals("/user/profile")) { %>
+
                     <%@include file="pages/profile.jsp"%>
-                <% } else if (url.equals("/user/repo")) { %>
+
+                <% } else if (url.equals("/repo")) { %>
+
                     <%@include file="pages/repo.jsp"%>
+
                 <% } else { %>
 
                     <%@include file="pages/error.jsp"%>
