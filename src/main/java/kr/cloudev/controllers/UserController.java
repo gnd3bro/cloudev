@@ -40,7 +40,7 @@ public class UserController {
         UserModel model = new UserModel();
 
         model.setModelFields(baseModel);
-        model.setTitle(myself.getName().concat(" - Cloudev"));
+        model.setTitle(model.getUsername().concat(" - ").concat(model.getSiteName()));
         model.setProfileUrl(myself.getHtmlUrl().toString());
         model.setBio(myself.getBio());
         model.setFollowersCount(myself.getFollowersCount());

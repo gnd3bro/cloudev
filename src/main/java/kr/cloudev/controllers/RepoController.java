@@ -36,6 +36,7 @@ public class RepoController {
         HttpSession session = request.getSession();
 
         BaseModel model = (BaseModel) session.getAttribute("baseModel");
+        model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
 
         return new ModelAndView("base", "model", model);
     }
@@ -54,10 +55,16 @@ public class RepoController {
 
         GHMyself myself = github.getMyself();
 
+        if (myself.getRepository(repoName) == null) {
+            response.sendRedirect("/404");
+            return null;
+        }
+
         RepoModel model = new RepoModel();
 
         model.setModelFields(baseModel);
-        model.setTitle(myself.getName().concat(" - Cloudev"));
+        model.setTitle(myself.getName().concat(" - ").concat(model.getSiteName()));
+        model.setRepoName(repoName);
 
         return new ModelAndView("base", "model", model);
     }
