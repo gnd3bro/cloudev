@@ -25,6 +25,6 @@
     <absolute-ordering />
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/views/home.jsp</location>
+        <location>/WEB-INF/views/base.jsp</location>
     </error-page>
 </web-app>

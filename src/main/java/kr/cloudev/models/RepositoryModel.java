@@ -6,7 +6,7 @@ import org.kohsuke.github.GHRepository;
 import java.io.IOException;
 import java.util.List;
 
-public class MyRepo {
+public class RepositoryModel {
 
     @SerializedName("name")
     public String name;
@@ -32,7 +32,7 @@ public class MyRepo {
     @SerializedName("stargazersCount")
     public int stargazersCount;
 
-    public MyRepo(GHRepository repo) throws IOException {
+    public RepositoryModel(GHRepository repo) throws IOException {
         name = repo.getName();
         htmlUrl = repo.getHtmlUrl().toString();
         topicList = repo.listTopics();

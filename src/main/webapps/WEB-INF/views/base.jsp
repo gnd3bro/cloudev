@@ -30,13 +30,13 @@
 
                     <%@include file="pages/user.jsp"%>
 
-                <% } else if (url.equals("/user/profile")) { %>
-
-                    <%@include file="pages/profile.jsp"%>
-
                 <% } else if (url.equals("/repo")) { %>
 
                     <%@include file="pages/repo.jsp"%>
+
+                <% } else if (url.contains("/repo/")) { %>
+
+                    <%@include file="pages/files.jsp"%>
 
                 <% } else { %>
 
