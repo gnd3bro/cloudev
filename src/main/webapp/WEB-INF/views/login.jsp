@@ -4,6 +4,7 @@
 <html lang="en">
 
     <%@include file="components/head.jsp"%>
+    <%@include file="components/scripts-header.jsp"%>
 
     <body class="bg-gradient-primary">
 
@@ -23,15 +24,6 @@
                                         <form class="user"
                                               action="${pageContext.request.contextPath}/login.do"
                                               method="post">
-
-                                        <!--<div class="form-group">
-
-                                                <input type="text"
-                                                       class="form-control form-control-user"
-                                                       name="username"
-                                                       placeholder="Username">
-
-                                            </div>-->
 
                                             <div class="form-group">
                                                 <input type="password"
@@ -71,7 +63,7 @@
             </div>
         </div>
 
-        <%@include file="components/scripts-header.jsp"%>
+        <%@include file="components/scripts-footer.jsp"%>
 
     </body>
 

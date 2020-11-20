@@ -1,4 +1,4 @@
-package kr.cloudev.models;
+package kr.cloudev.models.view;
 
 public class HomeModel {
 

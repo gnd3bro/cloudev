@@ -1,14 +1,16 @@
 package kr.cloudev.controllers;
 
 import com.google.gson.GsonBuilder;
-import kr.cloudev.models.HomeModel;
-import kr.cloudev.models.MyRepo;
+import kr.cloudev.models.view.BaseModel;
+import kr.cloudev.models.RepositoryModel;
+import kr.cloudev.models.view.page.UserModel;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,65 +24,33 @@ import java.util.List;
 public class UserController {
 
     @RequestMapping()
-    public ModelAndView userPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-
-        GitHub github = (GitHub) session.getAttribute("github");
-
-        if (github == null) {
-            response.sendRedirect("/");
+    public ModelAndView user(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (RequestContextUtils.getInputFlashMap(request) == null) {
+            response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
             return null;
         }
 
-        GHUser user = github.getMyself();
-
-        HomeModel model = new HomeModel();
-
-        model.setTitle("Profile - Cloudev");
-        model.setAvatarUrl(user.getAvatarUrl());
-        model.setUsername(user.getName());
-        model.setLoginId(user.getLogin());
-        model.setProfileUrl(user.getHtmlUrl().toString());
-        model.setFollowersCount(user.getFollowersCount());
-        model.setFollowingCount(user.getFollowingCount());
-        model.setBio(user.getBio());
-        model.setTwitterUsername(user.getTwitterUsername());
-        model.setBlogUrl(user.getBlog());
-        model.setLocation(user.getLocation());
-        model.setEmail(user.getEmail());
-
-        return new ModelAndView("home", "model", model);
-    }
-
-    @RequestMapping("/profile")
-    public ModelAndView userProfile(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
 
         GitHub github = (GitHub) session.getAttribute("github");
+        BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
 
-        if (github == null) {
-            response.sendRedirect("/");
-            return null;
-        }
+        GHMyself myself = github.getMyself();
 
-        GHUser user = github.getMyself();
+        UserModel model = new UserModel();
 
-        HomeModel model = new HomeModel();
+        model.setModelFields(baseModel);
+        model.setTitle(model.getUsername().concat(" - ").concat(model.getSiteName()));
+        model.setProfileUrl(myself.getHtmlUrl().toString());
+        model.setBio(myself.getBio());
+        model.setFollowersCount(myself.getFollowersCount());
+        model.setFollowingCount(myself.getFollowingCount());
+        model.setTwitterUsername(myself.getTwitterUsername());
+        model.setBlogUrl(myself.getBlog());
+        model.setLocation(myself.getLocation());
+        model.setEmail(myself.getEmail());
 
-        model.setTitle("Profile - Cloudev");
-        model.setAvatarUrl(user.getAvatarUrl());
-        model.setUsername(user.getName());
-        model.setLoginId(user.getLogin());
-        model.setProfileUrl(user.getHtmlUrl().toString());
-        model.setFollowersCount(user.getFollowersCount());
-        model.setFollowingCount(user.getFollowingCount());
-        model.setBio(user.getBio());
-        model.setTwitterUsername(user.getTwitterUsername());
-        model.setBlogUrl(user.getBlog());
-        model.setLocation(user.getLocation());
-        model.setEmail(user.getEmail());
-
-        return new ModelAndView("home", "model", model);
+        return new ModelAndView("base", "model", model);
     }
 
     @ResponseBody
@@ -89,29 +59,20 @@ public class UserController {
         HttpSession session = request.getSession();
 
         GitHub github = (GitHub) session.getAttribute("github");
-        GHUser user = github.getMyself();
 
-        PagedIterator<GHRepository> starredPagedIterator = user.listStarredRepositories().iterator();
-        List<MyRepo> starredRepoList = new ArrayList<>();
+        if (github == null) {
+            return null;
+        }
+
+        GHMyself myself = github.getMyself();
+
+        PagedIterator<GHRepository> starredPagedIterator = myself.listStarredRepositories().iterator();
+        List<RepositoryModel> starredRepoList = new ArrayList<>();
 
         while (starredRepoList.size() < 10){
-            starredRepoList.add(new MyRepo(starredPagedIterator.next()));
+            starredRepoList.add(new RepositoryModel(starredPagedIterator.next()));
         }
 
         return new GsonBuilder().create().toJson(starredRepoList);
     }
-
-    @ResponseBody
-    @RequestMapping("/repo_list.do")
-    public String doRepoList(HttpServletRequest request) throws IOException {
-        HttpSession session = request.getSession();
-
-        GitHub github = (GitHub) session.getAttribute("github");
-        GHUser user = github.getMyself();
-
-        List<String> repoNameList = new ArrayList<>(user.getRepositories().keySet());
-
-        return new GsonBuilder().create().toJson(repoNameList);
-    }
-
 }
