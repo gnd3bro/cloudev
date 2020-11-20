@@ -27,7 +27,7 @@
                 </tr>
                 </tbody>
             </table>
-
+             <%--TODO: FILE LIST 구현--%>
             <!-- Starred Repo Spinner -->
             <div id="file_list_spinner"></div>
         </div>

@@ -1,6 +1,7 @@
 package kr.cloudev.controllers;
 
 import com.google.gson.GsonBuilder;
+import kr.cloudev.models.RepoListModel;
 import kr.cloudev.models.RepositoryModel;
 import kr.cloudev.models.view.BaseModel;
 import kr.cloudev.models.view.page.RepoModel;
@@ -8,9 +9,7 @@ import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.UrlPathHelper;
@@ -19,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/repo")
@@ -36,7 +34,9 @@ public class RepoController {
         HttpSession session = request.getSession();
 
         BaseModel model = (BaseModel) session.getAttribute("baseModel");
+
         model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
+        model.setUrlMapDoRepoList("/repo/repo_list.do");
 
         return new ModelAndView("base", "model", model);
     }
@@ -50,12 +50,11 @@ public class RepoController {
 
         HttpSession session = request.getSession();
 
-        GitHub github = (GitHub) session.getAttribute("github");
+        GHMyself user = (GHMyself) session.getAttribute("user");
         BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
 
-        GHMyself myself = github.getMyself();
 
-        if (myself.getRepository(repoName) == null) {
+        if (user.getRepository(repoName) == null) {
             response.sendRedirect("/404");
             return null;
         }
@@ -63,7 +62,7 @@ public class RepoController {
         RepoModel model = new RepoModel();
 
         model.setModelFields(baseModel);
-        model.setTitle(myself.getName().concat(" - ").concat(model.getSiteName()));
+        model.setTitle(user.getName().concat(" - ").concat(model.getSiteName()));
         model.setRepoName(repoName);
 
         return new ModelAndView("base", "model", model);
@@ -80,12 +79,45 @@ public class RepoController {
             return null;
         }
 
-        GHMyself myself = github.getMyself();
+        GHMyself user = (GHMyself) session.getAttribute("user");
+        Iterator<GHRepository> repoList = user.getRepositories().values().iterator();
 
-        List<RepositoryModel> repoList = new ArrayList<>();
+        List<String> repoFullnameList = new ArrayList<>();
 
-        for (GHRepository repo : myself.getRepositories().values()) {
-            repoList.add(new RepositoryModel(repo));
+        while (repoList.hasNext()) {
+            repoFullnameList.add(repoList.next().getFullName());
+        }
+
+        return new GsonBuilder().create().toJson(new RepoListModel(user.getLogin(), repoFullnameList));
+    }
+
+
+    @ResponseBody
+    @PostMapping("/repo.do")
+    public String doRepo(HttpServletRequest request,
+                         @RequestParam Map<String, Object> param) throws IOException {
+        HttpSession session = request.getSession();
+
+        GitHub github = (GitHub) session.getAttribute("github");
+
+        if (github == null || param == null) {
+            return null;
+        }
+
+        String[] fullname = ((String) param.get("fullname")).split("/");
+        String loginId = (String) param.get("loginId");
+        String owner = fullname[0];
+        String repo = fullname[1];
+
+        GHMyself user = (GHMyself) session.getAttribute("user");
+
+        GHRepository rawRepo = user.getRepository(repo);
+        RepositoryModel repoList = null;
+
+        if (owner.equals(user.getLogin())) {
+            repoList = new RepositoryModel(rawRepo);
+        } else if (loginId == null) {
+            repoList = new RepositoryModel(github.getUser(owner).getRepository(repo));
         }
 
         return new GsonBuilder().create().toJson(repoList);

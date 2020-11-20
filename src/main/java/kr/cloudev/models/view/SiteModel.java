@@ -4,6 +4,10 @@ public abstract class SiteModel {
 
     private String title;
 
+    public void setModelFields(SiteModel model) {
+        setTitle(model.title);
+    }
+
     public String getTitle() {
         return title;
     }

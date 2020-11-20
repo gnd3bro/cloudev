@@ -56,6 +56,7 @@ public class LoginController {
 
         if (github.isCredentialValid()) {
             session.setAttribute("github", github);
+            session.setAttribute("user", github.getMyself());
 
             return "redirect:/";
         }
@@ -68,8 +69,9 @@ public class LoginController {
     public String doLoginOut(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        session.setAttribute("github", null);
         session.setAttribute("token", null);
+        session.setAttribute("github", null);
+        session.setAttribute("user", null);
 
         return "redirect:/";
     }

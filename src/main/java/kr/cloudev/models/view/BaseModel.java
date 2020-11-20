@@ -7,17 +7,20 @@ public class BaseModel extends SiteModel {
     private String urlMapEditor;
     private String urlMapRepositories;
     private String urlMapDoLogout;
+    private String urlMapDoRepoList;
     private String siteName;
     private String avatarUrl;
     private String username;
     private String loginId;
 
     public void setModelFields(BaseModel model) {
+        setModelFields((SiteModel) model);
         setUrlMapHome(model.getUrlMapHome());
         setUrlMapUser(model.getUrlMapUser());
         setUrlMapEditor(model.getUrlMapEditor());
         setUrlMapRepositories(model.getUrlMapRepositories());
         setUrlMapDoLogout(model.getUrlMapDoLogout());
+        setUrlMapDoRepoList(model.getUrlMapDoRepoList());
         setSiteName(model.getSiteName());
         setAvatarUrl(model.getAvatarUrl());
         setUsername(model.getUsername());
@@ -62,6 +65,14 @@ public class BaseModel extends SiteModel {
 
     public void setUrlMapDoLogout(String urlMapDoLogout) {
         this.urlMapDoLogout = urlMapDoLogout;
+    }
+
+    public String getUrlMapDoRepoList() {
+        return urlMapDoRepoList;
+    }
+
+    public void setUrlMapDoRepoList(String urlMapDoRepoList) {
+        this.urlMapDoRepoList = urlMapDoRepoList;
     }
 
     public String getSiteName() {

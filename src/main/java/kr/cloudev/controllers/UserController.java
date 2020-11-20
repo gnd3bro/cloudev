@@ -1,6 +1,7 @@
 package kr.cloudev.controllers;
 
 import com.google.gson.GsonBuilder;
+import kr.cloudev.models.RepoListModel;
 import kr.cloudev.models.view.BaseModel;
 import kr.cloudev.models.RepositoryModel;
 import kr.cloudev.models.view.page.UserModel;
@@ -32,23 +33,22 @@ public class UserController {
 
         HttpSession session = request.getSession();
 
-        GitHub github = (GitHub) session.getAttribute("github");
+        GHMyself user = (GHMyself) session.getAttribute("user");
         BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
-
-        GHMyself myself = github.getMyself();
 
         UserModel model = new UserModel();
 
         model.setModelFields(baseModel);
         model.setTitle(model.getUsername().concat(" - ").concat(model.getSiteName()));
-        model.setProfileUrl(myself.getHtmlUrl().toString());
-        model.setBio(myself.getBio());
-        model.setFollowersCount(myself.getFollowersCount());
-        model.setFollowingCount(myself.getFollowingCount());
-        model.setTwitterUsername(myself.getTwitterUsername());
-        model.setBlogUrl(myself.getBlog());
-        model.setLocation(myself.getLocation());
-        model.setEmail(myself.getEmail());
+        model.setProfileUrl(user.getHtmlUrl().toString());
+        model.setBio(user.getBio());
+        model.setFollowersCount(user.getFollowersCount());
+        model.setFollowingCount(user.getFollowingCount());
+        model.setTwitterUsername(user.getTwitterUsername());
+        model.setBlogUrl(user.getBlog());
+        model.setLocation(user.getLocation());
+        model.setEmail(user.getEmail());
+        model.setUrlMapDoRepoList("/user/starred_list.do");
 
         return new ModelAndView("base", "model", model);
     }
@@ -64,15 +64,15 @@ public class UserController {
             return null;
         }
 
-        GHMyself myself = github.getMyself();
+        GHMyself user = (GHMyself) session.getAttribute("user");
+        PagedIterator<GHRepository> starredPagedIterator = user.listStarredRepositories().iterator();
 
-        PagedIterator<GHRepository> starredPagedIterator = myself.listStarredRepositories().iterator();
-        List<RepositoryModel> starredRepoList = new ArrayList<>();
+        List<String> repoFullnameList = new ArrayList<>();
 
-        while (starredRepoList.size() < 10){
-            starredRepoList.add(new RepositoryModel(starredPagedIterator.next()));
+        while (starredPagedIterator.hasNext()){
+            repoFullnameList.add(starredPagedIterator.next().getFullName());
         }
 
-        return new GsonBuilder().create().toJson(starredRepoList);
+        return new GsonBuilder().create().toJson(new RepoListModel(null, repoFullnameList));
     }
 }
