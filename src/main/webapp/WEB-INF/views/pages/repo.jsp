@@ -5,7 +5,7 @@
     <!-- Repo List -->
     <div id="repo_list"></div>
 
-    <!-- Repo Spinner -->
+    <!-- Repo List Spinner -->
     <div id="repo_list_spinner">
         <div class="d-flex justify-content-center mb-4">
             <div class="spinner-border" role="status">

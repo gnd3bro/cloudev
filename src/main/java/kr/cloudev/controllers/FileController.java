@@ -5,7 +5,6 @@ import kr.cloudev.models.action.RepoListModel;
 import kr.cloudev.models.action.RepositoryModel;
 import kr.cloudev.models.view.BaseModel;
 import kr.cloudev.models.view.page.RepoModel;
-import org.kohsuke.github.GHContent;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -19,14 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/repo")
-public class RepoController {
+@RequestMapping("/file")
+public class FileController {
 
     @RequestMapping()
-    public ModelAndView repoList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ModelAndView file(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (RequestContextUtils.getInputFlashMap(request) == null) {
             response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
             return null;
@@ -69,7 +71,7 @@ public class RepoController {
     }
 
     @ResponseBody
-    @RequestMapping("/{type}_list.do")
+    @RequestMapping("/file_list.do")
     public String doRepoList(HttpServletRequest request, @PathVariable String type) throws IOException {
         HttpSession session = request.getSession();
 
@@ -103,7 +105,7 @@ public class RepoController {
 
 
     @ResponseBody
-    @PostMapping("/repo.do")
+    @PostMapping("/file.do")
     public String doRepo(HttpServletRequest request,
                          @RequestParam Map<String, Object> param) throws IOException {
         HttpSession session = request.getSession();

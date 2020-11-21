@@ -1,14 +1,10 @@
 package kr.cloudev.controllers;
 
-import com.google.gson.GsonBuilder;
-import kr.cloudev.models.RepoListModel;
 import kr.cloudev.models.view.BaseModel;
-import kr.cloudev.models.RepositoryModel;
 import kr.cloudev.models.view.page.UserModel;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.UrlPathHelper;
@@ -17,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -48,31 +42,8 @@ public class UserController {
         model.setBlogUrl(user.getBlog());
         model.setLocation(user.getLocation());
         model.setEmail(user.getEmail());
-        model.setUrlMapDoRepoList("/user/starred_list.do");
+        model.setUrlMapDoRepoList("/repo/starred_list.do");
 
         return new ModelAndView("base", "model", model);
-    }
-
-    @ResponseBody
-    @RequestMapping("/starred_list.do")
-    public String doUserStarredList(HttpServletRequest request) throws IOException {
-        HttpSession session = request.getSession();
-
-        GitHub github = (GitHub) session.getAttribute("github");
-
-        if (github == null) {
-            return null;
-        }
-
-        GHMyself user = (GHMyself) session.getAttribute("user");
-        PagedIterator<GHRepository> starredPagedIterator = user.listStarredRepositories().iterator();
-
-        List<String> repoFullnameList = new ArrayList<>();
-
-        while (starredPagedIterator.hasNext()){
-            repoFullnameList.add(starredPagedIterator.next().getFullName());
-        }
-
-        return new GsonBuilder().create().toJson(new RepoListModel(null, repoFullnameList));
     }
 }

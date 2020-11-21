@@ -72,9 +72,8 @@
                                     '                    </span>&nbsp\n' +
                                     repo.stargazersCount +
                                     '                    &nbsp&nbsp&nbsp\n' +
-                                    '                    <a href="' + repo.htmlUrl + '" class="icon text-secondary">\n' +
-                                    '                        <i class="fab fa-github"></i>\n' +
-                                    '                        &nbspGithub\n' +
+                                    '                    <a href="' + repo.htmlUrl + '" target="_blank" class="icon text-secondary">\n' +
+                                    '                        <i class="fas fa-external-link-alt"></i>\n' +
                                     '                    </a>\n' +
                                     '                </div>\n' +
                                     '            </div>\n' +
