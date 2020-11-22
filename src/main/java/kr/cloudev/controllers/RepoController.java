@@ -44,8 +44,9 @@ public class RepoController {
         return new ModelAndView("base", "model", model);
     }
 
-    public RepoModel repo(HttpServletRequest request, HttpServletResponse response,
-                          String repoName, String path) throws IOException {
+    @RequestMapping(value = { "/{repoName}", "/{repoName}/**" })
+    public ModelAndView repo(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable String repoName) throws IOException {
         if (RequestContextUtils.getInputFlashMap(request) == null) {
             response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
             return null;
@@ -60,6 +61,8 @@ public class RepoController {
             return null;
         }
 
+        String path = UrlPathHelper.getResolvedLookupPath(request).replace("/repo/".concat(repoName), "");
+
         BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
         RepoModel model = new RepoModel();
 
@@ -68,28 +71,10 @@ public class RepoController {
         model.setRepoName(repoName);
         model.setPath(path);
 
-        return model;
-    }
-
-    @RequestMapping("/{repoName}")
-    public ModelAndView repoRoot(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable String repoName) throws IOException {
-
-        RepoModel model = this.repo(request, response, repoName, "");
-
         return new ModelAndView("base", "model", model);
     }
-
-    @RequestMapping("/{repoName}/**")
-    public ModelAndView repoSub(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable String repoName) throws IOException {
-
-        String path = UrlPathHelper.getResolvedLookupPath(request).replace("/repo/".concat(repoName), "");
-        RepoModel model = this.repo(request, response, repoName, path);
-
-        return new ModelAndView("base", "model", model);
-    }
-
+    
+    // TODO: 인덱스 포함해서 순서 일관적으로 유지 할 수 있도록 구현 / JS 에서 미리 컨테이너 생성 후 할당 하는 방법으로
     @ResponseBody
     @RequestMapping("/{type}_list.do")
     public String doRepoList(HttpServletRequest request,
