@@ -13,18 +13,12 @@
 
                 for (const idx in list) {
                     item +=
-                        '<tr onclick="location.href=\'./';
-
-                    if ( "${model.path}" === "") {
-                        item += '${model.repoName}';
-                    }
-
-                    item +=
-                        '${model.path}/' + list[idx].name + '\'">\n' +
+                        '<tr onclick="location.href=\'/repo/${model.repoName}${model.path}/' +
+                        list[idx].name + '\'">\n' +
                         '    <td>' +
                         '        <span class="icon text-secondary">';
                     if (list[idx].type === "file") {
-                        item += '<i class="fas fa-file"></i>';
+                        item += '<i class="far fa-file"></i>';
                     } else if (list[idx].type === "dir") {
                         item += '<i class="fas fa-folder"></i>';
                     } else {
@@ -34,7 +28,7 @@
                         '        </span>&nbsp' +
                         list[idx].name +
                         '    </td>\n' +
-                        '    <td>';
+                        '    <td class="text-right">';
 
                     if (list[idx].type === "file") {
                         item += list[idx].size;

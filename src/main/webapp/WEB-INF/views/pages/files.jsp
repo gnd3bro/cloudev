@@ -6,7 +6,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 border-bottom-secondary">
-            <h6 class="m-0 font-weight-bold text-primary">${model.repoName}</h6>
+            <h6 class="m-0 font-weight-bold text-primary">${model.repoName}${model.path}</h6>
         </div>
         <div class="card-body table-responsive pl-1 pr-1 pt-0 pb-1">
             <%--TODO: FILE LIST 구현--%>
