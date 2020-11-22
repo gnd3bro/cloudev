@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@SuppressWarnings("DuplicatedCode")
 @Controller
 public class IndexController {
 
@@ -27,7 +28,7 @@ public class IndexController {
             response.sendRedirect("/login");
             return null;
         } else if (github == null) {
-            response.sendRedirect("/login.do");
+            response.sendRedirect("/login_confirm.do");
             return null;
         }
 
@@ -45,7 +46,8 @@ public class IndexController {
             return "redirect:/";
         }
 
-        GHMyself myself = github.getMyself();
+        GHMyself user = (GHMyself) session.getAttribute("user");
+
         BaseModel baseModel = new BaseModel();
 
         baseModel.setUrlMapHome("/user");
@@ -54,9 +56,9 @@ public class IndexController {
         baseModel.setUrlMapRepositories("/repo");
         baseModel.setUrlMapDoLogout("/login_out.do");
         baseModel.setSiteName("Cloudev");
-        baseModel.setUsername(myself.getName());
-        baseModel.setLoginId(myself.getLogin());
-        baseModel.setAvatarUrl(myself.getAvatarUrl());
+        baseModel.setUsername(user.getName() == null ? user.getLogin() : user.getName());
+        baseModel.setLoginId(user.getLogin());
+        baseModel.setAvatarUrl(user.getAvatarUrl());
 
         session.setAttribute("baseModel", baseModel);
         redirectAttributes.addFlashAttribute("isBaseDone", true);

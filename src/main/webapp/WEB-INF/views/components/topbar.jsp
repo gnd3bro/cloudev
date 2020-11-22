@@ -31,7 +31,9 @@
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="d-flex flex-column mr-2 align-item-right">
                     <span class="m-0 d-none d-lg-inline text-right text-gray-600 h6">${model.username}</span>
-                    <span class="m-0 d-none d-lg-inline text-right text-gray-500 small">${model.loginId}</span>
+                    <c:if test="${model.username ne model.loginId}">
+                        <span class="m-0 d-none d-lg-inline text-right text-gray-500 small">${model.loginId}</span>
+                    </c:if>
                 </div>
                 <img class="img-profile rounded-circle"
                      src="${model.avatarUrl}">
