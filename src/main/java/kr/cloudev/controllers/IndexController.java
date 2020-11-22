@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@SuppressWarnings("DuplicatedCode")
 @Controller
 public class IndexController {
 

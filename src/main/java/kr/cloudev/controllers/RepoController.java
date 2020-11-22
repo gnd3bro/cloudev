@@ -11,6 +11,7 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.UrlPathHelper;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
+@SuppressWarnings("DuplicatedCode")
 @Controller
 @RequestMapping("/repo")
 public class RepoController {
@@ -42,8 +44,8 @@ public class RepoController {
         return new ModelAndView("base", "model", model);
     }
 
-    @RequestMapping("/{repoName}")
-    public ModelAndView repo(HttpServletRequest request, HttpServletResponse response, @PathVariable String repoName) throws IOException {
+    public RepoModel repo(HttpServletRequest request, HttpServletResponse response,
+                          String repoName, String path) throws IOException {
         if (RequestContextUtils.getInputFlashMap(request) == null) {
             response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
             return null;
@@ -64,13 +66,34 @@ public class RepoController {
         model.setModelFields(baseModel);
         model.setTitle(user.getName().concat(" - ").concat(model.getSiteName()));
         model.setRepoName(repoName);
+        model.setPath(path);
+
+        return model;
+    }
+
+    @RequestMapping("/{repoName}")
+    public ModelAndView repoRoot(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable String repoName) throws IOException {
+
+        RepoModel model = this.repo(request, response, repoName, "");
+
+        return new ModelAndView("base", "model", model);
+    }
+
+    @RequestMapping("/{repoName}/**")
+    public ModelAndView repoSub(HttpServletRequest request, HttpServletResponse response,
+                             @PathVariable String repoName) throws IOException {
+
+        String path = UrlPathHelper.getResolvedLookupPath(request).replace("/repo/".concat(repoName), "");
+        RepoModel model = this.repo(request, response, repoName, path);
 
         return new ModelAndView("base", "model", model);
     }
 
     @ResponseBody
     @RequestMapping("/{type}_list.do")
-    public String doRepoList(HttpServletRequest request, @PathVariable String type) throws IOException {
+    public String doRepoList(HttpServletRequest request,
+                             @PathVariable String type) throws IOException {
         HttpSession session = request.getSession();
 
         GitHub github = (GitHub) session.getAttribute("github");
@@ -81,21 +104,21 @@ public class RepoController {
 
         GHMyself user = (GHMyself) session.getAttribute("user");
         List<String> repoFullnameList = new ArrayList<>();
-        Iterator<GHRepository> repoList;
+        List<GHRepository> repoList;
         String loginId;
 
         if (type.equals("repo")) {
             loginId = user.getLogin();
-            repoList = user.getRepositories().values().iterator();
+            repoList = new ArrayList<>(user.getRepositories().values());
         } else if (type.equals("starred")) {
             loginId = null;
-            repoList = user.listStarredRepositories().iterator();
+            repoList = user.listStarredRepositories().toList();
         } else {
             return null;
         }
 
-        while (repoList.hasNext()) {
-            repoFullnameList.add(repoList.next().getFullName());
+        for (GHRepository repo : repoList) {
+            repoFullnameList.add(repo.getFullName());
         }
 
         return new GsonBuilder().create().toJson(new RepoListModel(loginId, repoFullnameList));

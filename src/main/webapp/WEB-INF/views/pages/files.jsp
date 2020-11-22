@@ -10,27 +10,10 @@
         </div>
         <div class="card-body table-responsive pl-1 pr-1 pt-0 pb-1">
             <%--TODO: FILE LIST 구현--%>
-            <table id="file_list" class="table table-hover m-0">
-                <tbody>
-                <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-                </tbody>
-            </table>
+            <table id="file_list" class="table table-hover m-0"></table>
 
             <!-- File List Spinner -->
-            <div id="File_list_spinner">
+            <div id="file_list_spinner" class="mt-4">
                 <div class="d-flex justify-content-center mb-4">
                     <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
@@ -43,4 +26,4 @@
 </div>
 
 <!-- File List -->
-<%@include file="../components/script-repolist.jsp"%>
+<%@include file="../components/script-flielist.jsp"%>
