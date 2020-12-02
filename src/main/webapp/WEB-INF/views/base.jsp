@@ -38,6 +38,10 @@
 
                     <%@include file="pages/files.jsp"%>
 
+                <% } else if (url.contains("/policy")) { %>
+
+                    <%@include file="pages/policy.jsp"%>
+
                 <% } else { %>
 
                     <%@include file="pages/error.jsp"%>
