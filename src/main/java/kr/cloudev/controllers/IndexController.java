@@ -6,7 +6,10 @@ import org.kohsuke.github.GitHub;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +36,22 @@ public class IndexController {
         }
 
         return "redirect:/user";
+    }
+
+    @RequestMapping("/404")
+    public ModelAndView error_404(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (RequestContextUtils.getInputFlashMap(request) == null) {
+            response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
+            return null;
+        }
+
+        HttpSession session = request.getSession();
+
+        BaseModel model = (BaseModel) session.getAttribute("baseModel");
+
+        model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
+
+        return new ModelAndView("base", "model", model);
     }
 
     @RequestMapping("/base.do")
