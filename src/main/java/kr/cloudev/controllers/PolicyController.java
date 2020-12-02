@@ -1,6 +1,7 @@
 package kr.cloudev.controllers;
 
 import kr.cloudev.models.view.BaseModel;
+import kr.cloudev.models.view.page.PolicyModel;
 import kr.cloudev.models.view.page.UserModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class PolicyController {
 
         BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
 
-        UserModel model = new UserModel();
+        PolicyModel model = new PolicyModel();
 
         model.setModelFields(baseModel);
 
