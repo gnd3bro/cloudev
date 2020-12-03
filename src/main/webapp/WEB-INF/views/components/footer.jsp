@@ -3,7 +3,7 @@
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; ${siteName} 2020 <a href="policy">Terms of service</a> </span>
+            <span>Copyright &copy; ${model.siteName} 2020 <a href="${model.urlMapPolicy}">Terms of service</a> </span>
         </div>
     </div>
 </footer>

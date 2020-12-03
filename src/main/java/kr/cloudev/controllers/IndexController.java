@@ -73,6 +73,7 @@ public class IndexController {
         baseModel.setUrlMapUser("/user");
         baseModel.setUrlMapEditor("/user");
         baseModel.setUrlMapRepositories("/repo");
+        baseModel.setUrlMapPolicy("/policy");
         baseModel.setUrlMapDoLogout("/login_out.do");
         baseModel.setSiteName("Cloudev");
         baseModel.setUsername(user.getName() == null ? user.getLogin() : user.getName());
