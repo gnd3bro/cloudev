@@ -49,7 +49,7 @@ public class IndexController {
 
         BaseModel model = (BaseModel) session.getAttribute("baseModel");
 
-        model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
+        model.setTitle("404".concat(" - ").concat(model.getSiteName()));
 
         return new ModelAndView("base", "model", model);
     }
