@@ -49,7 +49,7 @@ public class IndexController {
 
         BaseModel model = (BaseModel) session.getAttribute("baseModel");
 
-        model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
+        model.setTitle("404".concat(" - ").concat(model.getSiteName()));
 
         return new ModelAndView("base", "model", model);
     }
@@ -73,6 +73,7 @@ public class IndexController {
         baseModel.setUrlMapUser("/user");
         baseModel.setUrlMapEditor("/user");
         baseModel.setUrlMapRepositories("/repo");
+        baseModel.setUrlMapPolicy("/policy");
         baseModel.setUrlMapDoLogout("/login_out.do");
         baseModel.setSiteName("Cloudev");
         baseModel.setUsername(user.getName() == null ? user.getLogin() : user.getName());

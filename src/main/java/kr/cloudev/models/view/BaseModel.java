@@ -6,6 +6,7 @@ public class BaseModel extends SiteModel {
     private String urlMapUser;
     private String urlMapEditor;
     private String urlMapRepositories;
+    private String urlMapPolicy;
     private String urlMapDoLogout;
     private String urlMapDoRepoList;
     private String siteName;
@@ -19,6 +20,7 @@ public class BaseModel extends SiteModel {
         setUrlMapUser(model.getUrlMapUser());
         setUrlMapEditor(model.getUrlMapEditor());
         setUrlMapRepositories(model.getUrlMapRepositories());
+        setUrlMapPolicy(model.getUrlMapPolicy());
         setUrlMapDoLogout(model.getUrlMapDoLogout());
         setUrlMapDoRepoList(model.getUrlMapDoRepoList());
         setSiteName(model.getSiteName());
@@ -57,6 +59,14 @@ public class BaseModel extends SiteModel {
 
     public void setUrlMapRepositories(String urlMapRepositories) {
         this.urlMapRepositories = urlMapRepositories;
+    }
+
+    public String getUrlMapPolicy() {
+        return urlMapPolicy;
+    }
+
+    public void setUrlMapPolicy(String urlMapPolicy) {
+        this.urlMapPolicy = urlMapPolicy;
     }
 
     public String getUrlMapDoLogout() {
