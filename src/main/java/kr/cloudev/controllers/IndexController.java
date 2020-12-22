@@ -56,7 +56,6 @@ public class IndexController {
 
     @RequestMapping("/base.do")
     public String doBase(HttpServletRequest request, RedirectAttributes redirectAttributes,
-                         @RequestParam("referer") String referer) throws IOException {
                          @RequestParam("referer") String referer, String type) throws IOException {
         HttpSession session = request.getSession();
 
@@ -76,10 +75,11 @@ public class IndexController {
 
         baseModel.setUrlMapHome("/user");
         baseModel.setUrlMapUser("/user");
-        baseModel.setUrlMapEditor("/user");
+        baseModel.setUrlMapEditor("/editor");
         baseModel.setUrlMapRepositories("/repo");
         baseModel.setUrlMapPolicy("/policy");
         baseModel.setUrlMapDoLogout("/login_out.do");
+        baseModel.setUrlMapDoRepoList("/repo/repo_list.do");
         baseModel.setSiteName("Cloudev");
         baseModel.setUsername(user.getName() == null ? user.getLogin() : user.getName());
         baseModel.setLoginId(user.getLogin());
