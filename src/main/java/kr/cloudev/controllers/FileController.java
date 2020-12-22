@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +36,7 @@ public class FileController {
 
     @ResponseBody
     @PostMapping("/list.do")
-    public String doRepoList(HttpServletRequest request,
+    public String doFileList(HttpServletRequest request,
                              @RequestParam Map<String, Object> param) throws IOException {
         HttpSession session = request.getSession();
 
@@ -61,7 +65,7 @@ public class FileController {
 
     @ResponseBody
     @PostMapping("/content.do")
-    public String doRepo(HttpServletRequest request,
+    public String doFileContent(HttpServletRequest request,
                          @RequestParam Map<String, Object> param) throws IOException {
         HttpSession session = request.getSession();
 
@@ -76,8 +80,9 @@ public class FileController {
 
         GHMyself user = (GHMyself) session.getAttribute("user");
         GHRepository repo = user.getRepository(repoName);
-        GHContent file = repo.getFileContent(fileName);
+        GHContent content = repo.getFileContent(fileName);
+        String contents = new String(content.read().readAllBytes(), StandardCharsets.UTF_8);
 
-        return new GsonBuilder().create().toJson(null);
+        return new GsonBuilder().create().toJson(contents);
     }
 }

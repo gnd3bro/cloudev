@@ -57,12 +57,17 @@ public class IndexController {
     @RequestMapping("/base.do")
     public String doBase(HttpServletRequest request, RedirectAttributes redirectAttributes,
                          @RequestParam("referer") String referer) throws IOException {
+                         @RequestParam("referer") String referer, String type) throws IOException {
         HttpSession session = request.getSession();
 
         GitHub github = (GitHub) session.getAttribute("github");
 
         if (github == null) {
             return "redirect:/";
+        }
+
+        if (type != null) {
+            referer = referer.concat("?type=" + type);
         }
 
         GHMyself user = (GHMyself) session.getAttribute("user");

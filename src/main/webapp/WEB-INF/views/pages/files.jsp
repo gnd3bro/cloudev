@@ -9,7 +9,7 @@
             <h6 class="m-0 font-weight-bold text-primary">${model.repoName}${model.path}</h6>
         </div>
         <div class="card-body table-responsive pl-1 pr-1 pt-0 pb-1">
-            <%--TODO: FILE LIST 구현--%>
+
             <table id="file_list" class="table table-hover m-0"></table>
 
             <!-- File List Spinner -->
@@ -26,4 +26,4 @@
 </div>
 
 <!-- File List -->
-<%@include file="../components/script-flielist.jsp"%>
+<%@include file="../components/script-filelist.jsp"%>
