@@ -14,7 +14,15 @@
                 for (const idx in list) {
                     item +=
                         '<tr onclick="location.href=\'/repo/${model.repoName}${model.path}/' +
-                        list[idx].name + '\'">\n' +
+                    list[idx].name;
+
+                    if (list[idx].type === 'file') {
+                        item += '?type=file';
+                    } else {
+                        item += '';
+                    }
+
+                    item += '\'">\n' +
                         '    <td>' +
                         '        <span class="icon text-secondary">';
                     if (list[idx].type === "file") {

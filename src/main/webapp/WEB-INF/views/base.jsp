@@ -1,7 +1,8 @@
 <%@ page import="org.springframework.web.util.UrlPathHelper" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% String url = new UrlPathHelper().getOriginatingRequestUri(request); %>
+<% String[] path = new UrlPathHelper().getOriginatingRequestUri(request).split("/");%>
+<% String type = request.getParameter("type") == null ? "" : request.getParameter("type"); %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,19 +27,35 @@
                     <%@include file="components/topbar.jsp"%>
 
                     <!-- Page Content -->
-                <% if (url.equals("/user")) { %>
+                <% if (path[1].equals("user")) { %>
 
                     <%@include file="pages/user.jsp"%>
 
-                <% } else if (url.equals("/repo")) { %>
+                <% } else if (path[1].equals("repo")) { %>
 
-                    <%@include file="pages/repo.jsp"%>
+                    <% if (path.length > 2) { %>
 
-                <% } else if (url.contains("/repo/")) { %>
+                        <% if (type.equals("file")) { %>
 
-                    <%@include file="pages/files.jsp"%>
+                            <%@include file="pages/content.jsp"%>
 
-                <% } else if (url.contains("/policy")) { %>
+                        <% } else { %>
+
+                            <%@include file="pages/files.jsp"%>
+
+                        <% } %>
+
+                    <% } else { %>
+
+                        <%@include file="pages/repo.jsp"%>
+
+                    <% } %>
+
+                <% } else if (path[1].contains("editor")) { %>
+
+                    <%@include file="pages/editor.jsp"%>
+
+                <% } else if (path[1].contains("policy")) { %>
 
                     <%@include file="pages/policy.jsp"%>
 
