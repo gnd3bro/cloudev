@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<!-- Policy -->
 <div class="container col-sm col-md-10 col-lg-8 col-xl-6">
     <h1 class="font-weight-bold">Cloudev 웹 사이트 이용약관</h1><br><br>
 

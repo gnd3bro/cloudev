@@ -36,19 +36,21 @@ public class RepoController {
 
         HttpSession session = request.getSession();
 
-        BaseModel model = (BaseModel) session.getAttribute("baseModel");
+        BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
+        RepoModel model = new RepoModel();
 
+        model.setModelFields(baseModel);
         model.setTitle("Repositories".concat(" - ").concat(model.getSiteName()));
-        model.setUrlMapDoRepoList("/repo/repo_list.do");
 
         return new ModelAndView("base", "model", model);
     }
 
     @RequestMapping(value = { "/{repoName}", "/{repoName}/**" })
     public ModelAndView repo(HttpServletRequest request, HttpServletResponse response,
-                             @PathVariable String repoName) throws IOException {
+                             @PathVariable String repoName, String type) throws IOException {
         if (RequestContextUtils.getInputFlashMap(request) == null) {
-            response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request));
+            String param = type != null ? "&type=" + type : "";
+            response.sendRedirect("/base.do?referer=" + UrlPathHelper.getResolvedLookupPath(request) + param);
             return null;
         }
 
@@ -62,6 +64,12 @@ public class RepoController {
         }
 
         String path = UrlPathHelper.getResolvedLookupPath(request).replace("/repo/".concat(repoName), "");
+
+        if (type != null) {
+            if (type.equals("file")) {
+                path = UrlPathHelper.getResolvedLookupPath(request).replace("/repo/".concat(repoName).concat("/"), "");
+            }
+        }
 
         BaseModel baseModel = (BaseModel) session.getAttribute("baseModel");
         RepoModel model = new RepoModel();

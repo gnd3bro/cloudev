@@ -132,7 +132,7 @@
     </div>
 
     <!-- Repo List -->
-    <div id="repo_list"></div>
+    <div id="repo_list" class="row no-gutters"></div>
 
     <!-- Repo List Spinner -->
     <div id="repo_list_spinner">

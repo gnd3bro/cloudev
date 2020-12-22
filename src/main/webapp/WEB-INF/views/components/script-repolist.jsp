@@ -17,10 +17,10 @@
                         success: (repo) => {
                             if (repo != null) {
                                 let item =
-                                    '<div class="card border-left-secondary shadow h-100 py-2 mb-4">\n' +
+                                    '<div class="col-xl-auto border-left-info shadow h-100 py-2 mb-4 mr-4" >\n' +
                                     '    <div class="card-body">\n' +
-                                    '        <div class="row no-gutters align-items-center">\n' +
-                                    '            <div class="col">\n' +
+
+
                                     '                <div class="h4 mb-3 font-weight-bold">\n';
 
                                 if (list.loginId) {
@@ -53,30 +53,30 @@
                                     '                </div>\n' +
                                     '                <div class="h6 mb-0 text-gray-600">\n' +
                                     '                    <span class="icon text-secondary">\n' +
-                                    '                        <i class="fas fa-code"></i>\n' +
+                                    '                        <i class="fas fa-code fa-sm"></i>\n' +
                                     '                    </span>&nbsp\n' +
                                     repo.language +
                                     '                    &nbsp&nbsp&nbsp\n' +
                                     '                    <span class="icon text-secondary">\n' +
-                                    '                        <i class="fas fa-balance-scale"></i>\n' +
+                                    '                        <i class="fas fa-balance-scale fa-sm"></i>\n' +
                                     '                    </span>&nbsp\n' +
                                     repo.license +
                                     '                    &nbsp&nbsp&nbsp\n' +
                                     '                    <span class="icon text-secondary">\n' +
-                                    '                        <i class="fas fa-code-branch"></i>\n' +
+                                    '                        <i class="fas fa-code-branch fa-sm"></i>\n' +
                                     '                    </span>&nbsp\n' +
                                     repo.forksCount +
                                     '                    &nbsp&nbsp&nbsp\n' +
                                     '                    <span class="icon text-secondary">\n' +
-                                    '                        <i class="fas fa-star"></i>\n' +
+                                    '                        <i class="fas fa-star fa-sm"></i>\n' +
                                     '                    </span>&nbsp\n' +
                                     repo.stargazersCount +
                                     '                    &nbsp&nbsp&nbsp\n' +
                                     '                    <a href="' + repo.htmlUrl + '" target="_blank" class="icon text-secondary">\n' +
-                                    '                        <i class="fas fa-external-link-alt"></i>\n' +
+                                    '                        <i class="fas fa-external-link-alt fa-sm"></i>\n' +
                                     '                    </a>\n' +
-                                    '                </div>\n' +
-                                    '            </div>\n' +
+
+
                                     '        </div>\n' +
                                     '    </div>\n' +
                                     '</div>\n';
